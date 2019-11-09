@@ -12,6 +12,7 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use(bodyParser());
 
+
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '../client/index.html'));
 });
@@ -38,4 +39,5 @@ app.use((err, req, res, next) => {
 
 	// Start up Server ------------------------------------
 app.listen(PORT, ()=>{console.log(`server running on ${PORT}`)})
+
 module.exports = app;
