@@ -1,2 +1,2 @@
-# passages
+# Passages
 Crowd sourced story telling
