@@ -7,7 +7,8 @@ const PORT = 3000;
 
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
-app.use(bodyParser());
+app.use(bodyparser());
+
 
 
 app.get('/', (req, res) => {
