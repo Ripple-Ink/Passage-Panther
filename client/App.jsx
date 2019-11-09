@@ -1,12 +1,15 @@
 import React from "react";
-import Login from './components/login.jsx';
+import Header from "./components/Header.jsx";
+import WriteNewStory from "./components/WriteNewStory.jsx";
+import NewStoryButton from "./components/NewStoryButton.jsx"
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      isUpload: false,
     };
     this.login = this.login.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -50,12 +53,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        //note ask!
-        <Login
-          onChangeUsername={this.onChangeUsername}
-          onChangePassword={this.onChangePassword}
-          loginButton={this.loginButton}
-        />
+        <Header /> {/* header is render Passages and login button */}
+        {this.state.isUpload ? <WriteNewStory /> : <NewStoryButton/>}{/* if  */}
       </div>
     );
   }
