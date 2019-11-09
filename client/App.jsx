@@ -77,4 +77,3 @@ export default App;
   //   onChangeUsername={this.onChangeUsername}
   //   onChangePassword={this.onChangePassword}
   //   loginButton={this.loginButton}
-  // />
