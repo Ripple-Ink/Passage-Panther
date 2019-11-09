@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-const login = props => {
+
+const Login = props => {
   return (
     <div>
       {/* <form> */}
         Username: <input onChnage={props.onChangeUsername} type="text" />
         Password: <input onChnage={props.onChangePassword} type="text" />/* show password feature*/
-        <button onClick={() => props.loginButton() }>Log in</button>
-        <button>Sign up</button>
-        <button>Forgot password</button>
+        <div onClick={() => {} }>Log in</div>
+        <div onClick={() => {} }>Sign up</div>
+        <div onClick={() => {} }>Forgot password</div>
       {/* </form> */}
     </div>
   );
 };
-export default login;
+export default Login;
