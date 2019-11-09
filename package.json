@@ -1,0 +1,38 @@
+{
+  "name": "ripple-ink",
+  "version": "1.0.0",
+  "description": "crowd source story telling",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server/server.js",
+    "build": "NODE_ENV=production webpack",
+    "dev": "concurrently \"NODE_ENV=development webpack-dev-server --open \" \"nodemon server/server.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JASS",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "node": "^13.1.0",
+    "pg": "^7.12.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "babel-loader": "^8.0.6",
+    "concurrently": "^5.0.0",
+    "css-loader": "^3.2.0",
+    "node-sass": "^4.13.0",
+    "nodemon": "^1.19.4",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  }
+}
