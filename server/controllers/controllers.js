@@ -37,7 +37,7 @@ controller.createAccount = (req, res, next) => {
 
     db.query(text, values, (err, result) => {
         if (!values[0] || !values[1]) { 
-            
+            return res.json({message: "please enter a username or password"})
         }
     })
 }
