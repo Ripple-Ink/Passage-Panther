@@ -1,9 +1,10 @@
 import React from "react";
-import Header from "./components/Header.jsx";
-import UploadNewStory from "./components/UploadNewStory.jsx";
-import NewStoryButton from "./components/NewStoryButton.jsx";
 import Login from "./components/Login.jsx";
+import Header from './components/Header.jsx';
+import NewStoryButton from "./components/NewStoryButton.jsx";
+import UploadNewStory from "./components/UploadNewStory.jsx";
 import TitleFeed from "./components/TitleFeed.jsx";
+import PassageFeed from './components/PassageFeed.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -13,16 +14,16 @@ class App extends React.Component {
       password: "",
       isUpload: false,
       isLoggedin: false,
-      titles: [{ id: 1, title: "scott", author: "mactruck" }],
+      isTitleClicked: false,
+      titles: [],
       passages: []
     };
     this.loginButton = this.loginButton.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
   }
-  //method for username input
+
   onChangeUsername(e) {
-    // let newUserName = this.state.username;
     this.setState({
       username: e.target.value
     });
@@ -49,30 +50,45 @@ class App extends React.Component {
         password: this.state.password
       })
     })
-      // .then(data => data.json())
-      .then(data => {
-        console.log(`hey post request was success ${data}`);
+    .then(data => {
+      console.log(`hey post request was success ${data}`);
+    })
+    .then(
+      this.setState({
+        username: "",
+        password: ""
       })
-      .then(
-        this.setState({
-          username: "",
-          password: ""
-        })
-      );
+    );
   }
+
+  titleClickHandler() {
+    this.setState(prevState => ({ 
+      isTitleClicked: !prevState.isTitleClicked 
+    }))
+  }
+  
+  pathClickHandler() {
+    
+  }
+
   render() {
     return (
       <div>
         <Header loginClickHandler={this.loginClickHandler} />
         {/* header is render Passages and login button */}
         {this.state.isUpload ? <UploadNewStory /> : <NewStoryButton />}
-        {/* if  */}
-        {/* {this.state.isLoggedin ? : } */}
-        <TitleFeed titles={this.state.titles} />
+        
+        {/* conditional rendering for click */}
+        {isTitleClicked} 
+          ? 
+          <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} /> 
+          : 
+          <TitleFeed titleClickHandler={this.titleClickHandler} titles={this.state.titles} /> 
       </div>
-    );
+    )
   }
 }
+
 export default App;
 
 // id , title, author, content, genre, parent, child1, child2, summary
