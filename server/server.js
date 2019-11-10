@@ -1,14 +1,11 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const dataController = require('./controllers/controllers.js')
+const dataController = require('./controllers/controllers.js');
 
 const app = express();
 const PORT = 3000;
 
-const dataController = require('./controllers/controllers.js');
-
-	//
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use(bodyParser.json());
