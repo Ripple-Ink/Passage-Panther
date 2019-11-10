@@ -6,11 +6,12 @@ const dataController = require('./controllers/controllers.js')
 const app = express();
 const PORT = 3000;
 
+const dataController = require('./controllers/controllers.js');
+
+	//
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use(bodyParser.json());
-
-
 
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '../client/index.html'));
@@ -20,14 +21,18 @@ app.get('/getTitles', dataController.getAllTitles);
 app.get('/getPassage/:id', dataController.getPassage);
 app.post('/createAccount', dataController.createAccount);
 
+	// Error Handling -------------------------------------
 app.use('*', (req, res) => {
-	res.status(404).send("not found")
-})
+	res.status(404).send('Not Found');
+});
 
 app.use((err, req, res, next) => {
-	console.log(err)
-	res.status(500).send("internal server error")
-})
+	console.log(err);
+	res.status(500).send('Internal Server Error');
+});
+
+	// Start up Server ------------------------------------
+
 app.listen(PORT, ()=>{console.log(`server running on ${PORT}`)})
 
 module.exports = app;
