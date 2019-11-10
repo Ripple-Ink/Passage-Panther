@@ -5,7 +5,7 @@ const Header = props => {
     return (
         <div>
             <h1>Passages</h1>
-            <div onClick={()=>{}} >Login</div>//create method for redirect login page
+            <div onClick={props.loginClickHandler} >Login</div>
         </div>
 
         //   <Login
