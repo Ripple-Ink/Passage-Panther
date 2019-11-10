@@ -5,10 +5,8 @@ const path = require('path');
 controller.getAllTitles = (req, res, next) => { 
     const text = 'SELECT _id, title, author, summary FROM passages'
     db.query(text)
-    .then(data => data.json())
     .then(result => {
-        console.log("SENDING BACK DATA FROM GETALLTITLES>>>>>>", result)
-        return res.status(200).json({result})
+        return res.status(200).json(result.rows)
     })
     .catch(err => {
         return next({err})
@@ -16,19 +14,15 @@ controller.getAllTitles = (req, res, next) => {
 }
 
 controller.getPassage = (req, res, next) => {
-    const text = 'SELECT * from passages'
-    const {_id} = req.params._id;
+    const id = req.params.id;
+    const text = `SELECT * from passages WHERE _id = ${id}`;
 
     db.query(text)
-    .then(data => data.json())
-    .then(result => { 
-        console.log(result) 
-        return res.status(200).json({result})
-        })
-    .catch(err  => {
-        return next({err})
+    .then(result => {
+         return res.status(200).json(result.rows)
     })
 }
+
 
 controller.createAccount = (req, res, next) => {
     const {username, password} = req.body; 
