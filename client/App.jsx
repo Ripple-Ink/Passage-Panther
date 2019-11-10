@@ -1,9 +1,10 @@
-import React from "react";
-import Header from "./components/Header.jsx";
-import WriteNewStory from "./components/WriteNewStory.jsx";
-import NewStoryButton from "./components/NewStoryButton.jsx"
+import React from 'react';
+import Header from './components/Header.jsx';
+import WriteNewStory from './components/WriteNewStory.jsx';
+import NewStoryButton from './components/NewStoryButton.jsx';
 import Login from './components/Login.jsx';
-import TitleFeed from "./components/TitleFeed.jsx";
+import TitleFeed from './components/TitleFeed.jsx';
+import PassageFeed from './components/PassageFeed.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -12,8 +13,9 @@ class App extends React.Component {
       username: "",
       password: "",
       isUpload: false,
-      titles: [{id: 1, title: 'scott', author:'mactruck'}],
-      passages: [] 
+      isTitleClicked: false,
+      titles: [{id: 1, title: 'title: Harry Potter', author: 'author: Mactruck'}],
+      passages: [{id: 1, title: 'Harry Potter', author: 'Mactruck', content:'Scott is samshibsam'}] 
     };
     // this.login = this.login.bind(this);
     // this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -54,12 +56,32 @@ class App extends React.Component {
   //     );
   // }
 
+  titleClickHandler() {
+    this.setState(prevState => ({ 
+      isTitleClicked: !prevState.isTitleClicked 
+    }))
+  }
+  
+
+  pathClickHandler() {
+    
+  }
+
   render() {
     return (
       <div>
         <Header /> {/* header is render Passages and login button */}
         {this.state.isUpload ? <WriteNewStory /> : <NewStoryButton/>}{/* if  */}
-        <TitleFeed titles={this.state.titles} />
+        
+        {/* conditional rendering for click */}
+        {isTitleClicked} 
+          ? 
+          <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} /> 
+          : 
+          <TitleFeed titleClickHandler={this.titleClickHandler} titles={this.state.titles} /> 
+
+        {/* */}
+
       </div>
     );
   }

@@ -1,11 +1,14 @@
 import React from 'react';
 import StoryTitle from "./StoryTitle.jsx";
+import PassageFeed from './PassageFeed.jsx';
 
 const titleFeed = (props) => {
   return (
     <div>
       {props.titles.map(item => (
-        <StoryTitle item={item} />
+        <div onClick={props.titleClickHandler}>
+          <StoryTitle item={item} />
+        </div>
       ))}                      
     </div>
   )
