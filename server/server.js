@@ -10,7 +10,7 @@ const dataController = require('./controllers/controllers.js');
 	//
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
-app.use(bodyparser());
+app.use(bodyParser());
 
 
 
