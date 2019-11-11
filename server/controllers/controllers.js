@@ -25,13 +25,13 @@ controller.getPassage = (req, res, next) => {
 
 
 controller.createAccount = (req, res, next) => {
-    const {username, password, firstname, lastname, email} = req.body; 
-    if (!username || !password || !firstname || !lastname || !email) { 
+    const {username, password, firstName, lastName, email} = req.body; 
+    if (!username || !password || !firstName || !lastName || !email) { 
         return res.json({message: "Please make sure the form is completely filled out!"})
     }
 
     const text = 'INSERT INTO logininfo (username, password, firstname, lastname, email) VALUES ($1, $2, $3, $4, $5)'
-    const values = [username, password, firstname, lastname, email];
+    const values = [username, password, firstName, lastName, email];
     
 
     db.query(text, values, (err, result) => {
