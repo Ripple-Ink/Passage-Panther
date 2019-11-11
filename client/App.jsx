@@ -217,9 +217,6 @@ class App extends React.Component {
           homeSignupButton={this.homeSignupButton}
         />
 
-        {/* header is render Passages and login button */}
-        {this.state.isUpload ? <UploadNewStory /> : <NewStoryButton />}
-        
         {/* conditional rendering for storytitle component */}
         
         { this.state.isTitleClicked 
@@ -237,8 +234,7 @@ class App extends React.Component {
             onChangePath1={this.onChangePath1}
             onChangePath2={this.onChangePath2}
           />
-        ) : (
-          // null
+        ) : (   
           <NewStoryButton />
         )}
 
