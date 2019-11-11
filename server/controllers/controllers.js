@@ -45,35 +45,20 @@ controller.createAccount = (req, res, next) => {
     })
     }
 
-    controller.checkLogin = (req, res, next) => {
-        const {username, password } = req.body
-        if (!username || !password) { 
-            return res.json({message: "please enter a username or password!"})
-        }
-
-
-  db.query(text, values, (err, result) => {
-    if (!err) {
-      res.status(200).json(result);
-      return next();
-    } else {
-      return next(err);
-    }
-  });
-};
 
 controller.checkLogin = (req, res, next) => {
   const { username, password } = req.body;
+  const text = `SELECT username, password FROM logininfo WHERE username = '${ username }' AND password = '${ password }'`;
+
   if (!username || !password) {
-    return res.json({ message: "please enter a username or password!" });
+    return res.status(400).json({ message: "please enter a username or password!" });
   }
 
-  const text = `SELECT username, password FROM logininfo WHERE username = '${username}' AND password = '${password}'`;
+
   db.query(text)
     .then(result => {
-      if (
-        result.rows[0].username !== username || result.rows[0].password !== password) {
-        res.status(400).json({ message: "Please enter valid username or passward" });
+      if (result.rows[0].username !== username || result.rows[0].password !== password) {
+        return res.status(400).json({ message: "Please enter valid username or passward" });
       } else {
         res.status(200).json(result.rows);
         return next();
