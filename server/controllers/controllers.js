@@ -4,10 +4,11 @@ const path = require("path");
 
 controller.getAllTitles = (req, res, next) => {
   const text =
-    "SELECT _id, title, author, FROM passages WHERE parent = null";
+    "SELECT _id, title, author FROM passages WHERE parent = 0";
   db.query(text)
     .then(result => {
-      return res.status(200).json(result.rows);
+      res.status(200).json(result.rows);
+      return next();
     })
     .catch(err => {
       return next({ err });
@@ -17,8 +18,10 @@ controller.getAllTitles = (req, res, next) => {
 controller.getPassage = (req, res, next) => {
   const id = req.params.id;
   const text = `SELECT * from passages WHERE _id = ${id}`;
+  
   db.query(text).then(result => {
-    return res.status(200).json(result.rows);
+    res.status(200).json(result.rows);
+    return next();
   });
 };
 
@@ -34,7 +37,8 @@ controller.createAccount = (req, res, next) => {
 
     db.query(text, values, (err, result) => {
         if (!err) {  
-            return res.status(200).json(result)
+          res.status(200).json(result);
+          return next();
         } else { 
             return next(err);
         }
@@ -50,7 +54,8 @@ controller.createAccount = (req, res, next) => {
 
   db.query(text, values, (err, result) => {
     if (!err) {
-      return res.status(200).json(result);
+      res.status(200).json(result);
+      return next();
     } else {
       return next(err);
     }
@@ -62,6 +67,7 @@ controller.checkLogin = (req, res, next) => {
   if (!username || !password) {
     return res.json({ message: "please enter a username or password!" });
   }
+
   const text = `SELECT username, password FROM logininfo WHERE username = '${username}' AND password = '${password}'`;
   db.query(text)
     .then(result => {
@@ -69,7 +75,8 @@ controller.checkLogin = (req, res, next) => {
         result.rows[0].username !== username || result.rows[0].password !== password) {
         res.status(400).json({ message: "Please enter valid username or passward" });
       } else {
-        return res.status(200).json(result.rows);
+        res.status(200).json(result.rows);
+        return next();
       }
     })
     .catch(err => {
@@ -78,15 +85,16 @@ controller.checkLogin = (req, res, next) => {
 };
 
 controller.createNewRow = (req, res, next) => {
-  const {title, author, parent, child1, child2, path1, path2} = req.body;
-    let text = `INSERT INTO passages (title, author, parent, child1, child2, path1, path2)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-    `
-    const values = [title, author, parent, child1, child2, path1, path2];
+  const { title, author, content, parent, path1, path2 } = req.body;
 
-    db.query(text)
-    .then( resp =>  next() )
+    const text = `INSERT INTO passages (title, author, content, parent, child1, child2, path1, path2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
+    const values = [title, author, content, parent, 0, 0 , path1, path2];
 
+    db.query(text, values, (err, result) => {
+      if (!err) { 
+        return next();
+      }
+    })
 };
 
 controller.getLatestId = (req, res, next) => {
@@ -99,8 +107,9 @@ controller.getLatestId = (req, res, next) => {
 }
 
   controller.updatePassages = (req, res, next) => {
-    const { childId } = req.body
+    const { childId, parent } = req.body
     let text;
+    if (parent !== 0) { 
     if (childId === 1) { 
       text = `UPDATE passages SET child1 = ${res.locals.lastRow } WHERE _id = ${parent}`
     }
@@ -108,7 +117,9 @@ controller.getLatestId = (req, res, next) => {
     if (childId === 2) { 
       text = `UPDATE passages SET child2 = ${res.locals.lastRow } WHERE _id = ${parent}`
     }
-    db.query(text3)
+    db.query(text)
+    .then(() => {return next()})
+  }
   }
 
 

@@ -14,11 +14,21 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/index.html"));
 });
 
-app.get('/getTitles', dataController.getAllTitles);
-app.get('/getPassage/:id', dataController.getPassage);
-app.post('/signup', dataController.createAccount);
-app.post('/login', dataController.checkLogin);
-app.post('/uploadPassage', dataController.createNewRow, dataController.getLatestId, dataController.updatePassages);
+app.get('/getTitles', dataController.getAllTitles, (req, res) => {
+  res.status(200).json({message: "successful!"})
+});
+
+app.get('/getPassage/:id', dataController.getPassage, (req, res) => {
+  res.status(200).json({message: "successful!"});
+
+app.post('/signup', dataController.createAccount, (req, res) => {
+  res.status(200).json({message: "successful!"});
+
+app.post('/login', dataController.checkLogin,(req, res) => {
+  res.status(200).json({message: "successful!"});
+
+app.post('/uploadPassage', dataController.createNewRow, dataController.getLatestId, dataController.updatePassages, (req, res) => {
+  res.status(200).json({message: "successful!"});
 
 // Error Handling -------------------------------------
 app.use("*", (req, res) => {
