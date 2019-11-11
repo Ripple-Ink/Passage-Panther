@@ -14,10 +14,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/index.html"));
 });
 
-app.get("/getTitles", dataController.getAllTitles);
-app.get("/getPassage/:id", dataController.getPassage);
-app.post("/signup", dataController.createAccount);
-app.post("/login", dataController.checkLogin);
+app.get('/getTitles', dataController.getAllTitles);
+app.get('/getPassage/:id', dataController.getPassage);
+app.post('/signup', dataController.createAccount);
+app.post('/login', dataController.checkLogin);
+app.post('/newBranch' )
 
 // Error Handling -------------------------------------
 app.use("*", (req, res) => {
