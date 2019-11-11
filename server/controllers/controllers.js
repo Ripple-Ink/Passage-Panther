@@ -3,8 +3,7 @@ const controller = {};
 const path = require("path");
 
 controller.getAllTitles = (req, res, next) => {
-  const text =
-    "SELECT _id, title, author FROM passages WHERE parent = 0";
+  const text = "SELECT _id, title, author FROM passages WHERE parent = 0";
   db.query(text)
     .then(result => {
       res.locals.allTitles = result.rows;
@@ -43,21 +42,20 @@ controller.createAccount = (req, res, next) => {
             return next(err);
         }
     })
-    }
 
+}
 
 controller.checkLogin = (req, res, next) => {
   const { username, password } = req.body;
-  const text = `SELECT username, password FROM logininfo WHERE username = '${ username }' AND password = '${ password }'`;
+  const text = `SELECT username, password FROM logininfo WHERE username = '${username}' AND password = '${password}'`;
 
   if (!username || !password) {
     return res.status(400).json({ message: "please enter a username or password!" });
   }
 
-
   db.query(text)
     .then(result => {
-      if (result.rows[0].username !== username || result.rows[0].password !== password) {
+      if (!result.rows[0]) {
         return res.status(400).json({ message: "Please enter valid username or passward" });
       } else {
         res.status(200).json(result.rows);
