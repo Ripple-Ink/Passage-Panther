@@ -1,15 +1,12 @@
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
-const dataController = require("./controllers/controllers.js");
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const dataController = require('./controllers/controllers.js');
 
 const app = express();
 const PORT = 3000;
 
-const dataController = require("./controllers/controllers.js");
-
-//
-app.use("/build", express.static(path.join(__dirname, "../build")));
+app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use(bodyParser.json());
 
@@ -19,7 +16,8 @@ app.get("/", (req, res) => {
 
 app.get("/getTitles", dataController.getAllTitles);
 app.get("/getPassage/:id", dataController.getPassage);
-app.post("/createAccount", dataController.createAccount);
+app.post("/signup", dataController.createAccount);
+app.post("/login", dataController.checkLogin);
 
 // Error Handling -------------------------------------
 app.use("*", (req, res) => {

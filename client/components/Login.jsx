@@ -1,16 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
+import Signup from './Signup.jsx'
 
 const Login = props => {
+  // console.log(props)
   return (
     <div>
-      {/* <form> */}
-      Username: <input onChnage={props.onChangeUsername} type="text" />
-      Password: <input onChnage={props.onChangePassword} type="text" />
-      /* show password feature*/
-      <div onClick={() => {}}>Log in</div>
-      <div onClick={() => {}}>Sign up</div>
-      <div onClick={() => {}}>Forgot password</div>
-      {/* </form> */}
+      Username: <input onChange={props.username} type="text" />
+      Password: <input onChange={props.password} type="text" />
+      <button onClick={props.loginButton}>Log in</button>
+      <button onClick={props.signupButtonInLogin}>Sign up</button>
     </div>
   );
 };

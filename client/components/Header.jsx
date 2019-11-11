@@ -4,15 +4,10 @@ const Header = props => {
   return (
     <div>
       <h1>Passages</h1>
-      <div onClick={props.loginClickHandler}>Login</div>
+      <button onClick={props.loginClickHandler}>Login</button>
+      <button onClick={props.homeSignupButton}>Sign up</button>
     </div>
-
-    //   <Login
-    //     onChangeUsername={this.onChangeUsername}
-    //     onChangePassword={this.onChangePassword}
-    //     loginButton={this.loginButton}
-    //   />
   );
-}; 
+};
 
 export default Header;
