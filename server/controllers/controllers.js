@@ -78,14 +78,39 @@ controller.checkLogin = (req, res, next) => {
 };
 
 controller.createNewRow = (req, res, next) => {
-  const text = `INSERT INTO passages (title, author, content, parent, child1, child2, path1, path2) 
-  VALUES (title, author, content, )
-  `;
+  const {title, author, parent, child1, child2, path1, path2} = req.body;
+    let text = `INSERT INTO passages (title, author, parent, child1, child2, path1, path2)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `
+    const values = [title, author, parent, child1, child2, path1, path2];
+
+    db.query(text)
+    .then( resp =>  next() )
 
 };
 
-controller.uploadPassage = (req, res, next) => { 
-
+controller.getLatestId = (req, res, next) => {
+  const text = `SELECT MAX(_id) FROM passages`
+  db.query(text)
+  .then(result => {
+    res.locals.lastRow = result.rows[0].max;
+    return next();
+  })
 }
+
+  controller.updatePassages = (req, res, next) => {
+    const { childId } = req.body
+    let text;
+    if (childId === 1) { 
+      text = `UPDATE passages SET child1 = ${res.locals.lastRow } WHERE _id = ${parent}`
+    }
+  
+    if (childId === 2) { 
+      text = `UPDATE passages SET child2 = ${res.locals.lastRow } WHERE _id = ${parent}`
+    }
+    db.query(text3)
+  }
+
+
 
 module.exports = controller;
