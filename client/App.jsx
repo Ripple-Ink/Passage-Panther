@@ -42,11 +42,23 @@ class App extends React.Component {
     this.signupButton = this.signupButton.bind(this);
     this.homeSignupButton = this.homeSignupButton.bind(this);
     this.toggleIsUpload = this.toggleIsUpload.bind(this);
-    this.handleUploadPassage = this.handleUploadPassage.bind(this)
+    this.handleUploadPassage = this.handleUploadPassage.bind(this);
+    this.getTitlesAfterUpload = this.getTitlesAfterUpload.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/getTitles')
+    .then(res => {
+      const allTitles = [...this.state.titles];
+      allTitles.push({...res})
+      this.setState(prevState => ({
+        titles: allTitles
+      }))
+    })
   }
   
   onChangeInput(e) {
-    let object = {};                 
+    const object = {};                 
     object[e.target.name] = e.target.value;    
     this.setState(object);                           
   }
@@ -99,26 +111,22 @@ class App extends React.Component {
   }
   //sign up fetch request
   signupButton() {
-    fetch("/signup", {
-      method: "POST",
-      header: { "content-type": "application/json" },
-      body: JSON.stringify({
+    axios.post("/signup", {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email: this.state.email,
         username: this.state.username,
         password: this.state.password
-      })
     })
-      .then(data => console.log(`sign up has been success ${data}`))
-      .then(
-        this.setState(prevState => ({
-          isSignup: !prevState.isSignup,
-          // isUpload: !prevState.isUpload,
-          isLogin: !prevState.isLogin,
-          isLoggedIn: true,
-        }))
-      );
+    .then(data => console.log(`sign up has been success ${data}`))
+    .then(
+      this.setState(prevState => ({
+        isSignup: !prevState.isSignup,
+        // isUpload: !prevState.isUpload,
+        isLogin: !prevState.isLogin,
+        isLoggedIn: true,
+      }))
+    );
   }
 
   handleUploadPassage() {
@@ -142,6 +150,20 @@ class App extends React.Component {
           childButtonClicked: 0,
         });
       })
+      .then(
+        this.getTitlesAfterUpload()
+      )
+  }
+
+  getTitlesAfterUpload() {
+    axios.get('/getTitles')
+    .then(newTitle => {
+      const newTitles = [...this.state.titles];
+      newTitle.push(...newTitle)
+      this.setState(prevState => ({
+        titles: newTitles
+      }))
+    })
   }
   
   titleClickHandler(id) {
