@@ -18,7 +18,7 @@ app.get('/getTitles', dataController.getAllTitles);
 app.get('/getPassage/:id', dataController.getPassage);
 app.post('/signup', dataController.createAccount);
 app.post('/login', dataController.checkLogin);
-// app.post('/uploadPassage', dataController.uploadPassage);
+app.post('/uploadPassage', dataController.createNewRow, dataController.getLatestId, dataController.updatePassages);
 
 // Error Handling -------------------------------------
 app.use("*", (req, res) => {
