@@ -5,7 +5,7 @@ const NewStoryButton = props => {
     <div>
       {/* need to create method for renders upload component */}
       {/* if user is not logged in redirect to sign in page */}
-      <div onClick={() => {}}>+</div>
+      <div onClick={props.toggleIsUpload}>+</div>
     </div>
   );
 };
