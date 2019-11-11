@@ -6,10 +6,11 @@ const titleFeed = props => {
   return (
     <div>
       <NewStoryButton toggleIsUpload={props.toggleIsUpload} />
-
-      {props.titles.map(item => (
-        <StoryTitle titleClickHandler={props.titleClickHandler} item={item} />          
-      ))}     
+      <div>
+        {props.titles.map(item => (
+          <StoryTitle titleClickHandler={props.titleClickHandler} item={item} />
+        ))}
+      </div>                      
     </div>
   );
 };
