@@ -158,17 +158,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-<<<<<<< HEAD
-        {/* {console.log('hello',this.state.username)} */}
-        <Header
-          loginClickHandler={this.loginClickHandler}
-          homeSignupButton={this.homeSignupButton}
-        />
-
-=======
         <Header loginClickHandler={this.loginClickHandler} homeSignupButton={this.homeSignupButton} />
         
->>>>>>> 29cb389e05ac3b97a25f55bec52ad5de9697cdd1
         {/* conditional rendering for storytitle component */}
         
         { this.state.isSignup ? 
@@ -181,7 +172,6 @@ class App extends React.Component {
               <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} />
                 : <TitleFeed titleClickHandler={this.titleClickHandler} titles={this.state.titles} toggleIsUpload={this.toggleIsUpload} />
         }
-<<<<<<< HEAD
 
         {this.state.isUpload ? (
           <UploadNewStory
@@ -222,9 +212,6 @@ class App extends React.Component {
             signupButton={this.signupButton}
           />
         ) : null}
-=======
-        
->>>>>>> 29cb389e05ac3b97a25f55bec52ad5de9697cdd1
       </div>
     );
   }
