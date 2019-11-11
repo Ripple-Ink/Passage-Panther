@@ -9,7 +9,7 @@ const titleFeed = props => {
 
       {props.titles.map(item => (
         <StoryTitle titleClickHandler={props.titleClickHandler} item={item} />          
-      ))}                      
+      ))}     
     </div>
   );
 };
