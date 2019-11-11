@@ -1,6 +1,7 @@
 const db = require("../models/models.js");
 const controller = {};
 const path = require("path");
+
 controller.getAllTitles = (req, res, next) => {
   const text =
     "SELECT _id, title, author, summary FROM passages WHERE parent = 0";

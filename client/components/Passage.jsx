@@ -14,8 +14,8 @@ const passage = (props) => {
           Passage: {props.passage.content} 
         </div>     
         <div className="btn-path">
-          <div onClick={() => {props.pathClickHandler(props.passage.child1)}}>{props.passage.path1}</div>
-          <div onClick={() => {props.pathClickHandler(props.passage.child2)}}>{props.passage.path2}</div>
+          <div id="1" onClick={(e) => props.pathClickHandler(props.passage.child1, e.target.id)}>{props.passage.path1}</div>
+          <div id="2" onClick={(e) => props.pathClickHandler(props.passage.child2, e.target.id)}>{props.passage.path2}</div>
         </div>
       </div>  
     </div>
