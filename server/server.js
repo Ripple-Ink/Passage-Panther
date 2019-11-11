@@ -19,16 +19,20 @@ app.get('/getTitles', dataController.getAllTitles, (req, res) => {
 });
 
 app.get('/getPassage/:id', dataController.getPassage, (req, res) => {
-  res.status(200).json({message: "successful!"});
-
+  res.status(200).json({message: "successful!"})
+});
+  
 app.post('/signup', dataController.createAccount, (req, res) => {
-  res.status(200).json({message: "successful!"});
+  res.status(200).json({message: "successful!"})
+});
 
 app.post('/login', dataController.checkLogin,(req, res) => {
-  res.status(200).json({message: "successful!"});
+  res.status(200).json({message: "successful!"})
+});
 
 app.post('/uploadPassage', dataController.createNewRow, dataController.getLatestId, dataController.updatePassages, (req, res) => {
-  res.status(200).json({message: "successful!"});
+  res.status(200).json({message: "successful!"})
+});
 
 // Error Handling -------------------------------------
 app.use("*", (req, res) => {
