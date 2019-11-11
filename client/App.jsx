@@ -28,7 +28,7 @@ class App extends React.Component {
       isUpload: false,
       isPassage: false,
       isLoggedin: false,
-      titles: [],
+      titles: [{_id: 1, title: 'harry', author:'mactruck'}, {_id: 2, title: 'lord', author:'mactruck'}],
       passages: [],
       childButtonClicked: 0,
     };
@@ -49,6 +49,7 @@ class App extends React.Component {
   componentDidMount() {
     axios.get('/getTitles')
     .then(res => {
+      console.log(res.data)
       const allTitles = [...this.state.titles];
       allTitles.push({...res})
       this.setState(prevState => ({

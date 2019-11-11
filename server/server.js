@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.get('/getTitles', dataController.getAllTitles, (req, res) => {
-  res.status(200).json({message: "successful!"})
+  res.status(200).json()
 });
 
 app.get('/getPassage/:id', dataController.getPassage, (req, res) => {

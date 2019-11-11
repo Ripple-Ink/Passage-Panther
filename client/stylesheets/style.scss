@@ -94,3 +94,25 @@ a {
         cursor: pointer;
     }
 }
+
+.passage-wrapper {
+    .passage-title {
+        font-size: 1.8rem;
+        margin: 20px;
+    }
+    .passage-content {
+        font-size: 1.5rem;
+        font-weight: 300;
+        margin: 20px auto;
+        padding: 10px;
+    }
+    .passage-author {
+        font-size: 1rem;
+        font-weight: 200;
+        font-style: italic;
+        span {
+            font-style: normal;
+        }
+        margin: 20px;
+    }
+}
