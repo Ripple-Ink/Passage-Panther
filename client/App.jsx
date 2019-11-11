@@ -2,6 +2,7 @@ import React from "react";
 import Login from "./components/Login.jsx";
 import Header from "./components/Header.jsx";
 import Signup from "./components/Signup.jsx";
+import LoginSignupButtons from './components/LoginSignupButtons.jsx';
 import UploadNewStory from "./components/UploadNewStory.jsx";
 import TitleFeed from "./components/TitleFeed.jsx";
 import PassageFeed from './components/PassageFeed.jsx';
@@ -23,11 +24,13 @@ class App extends React.Component {
       path2: '',
       isSignup: false,
       isLogin: false,
+      isLoggedIn: false,
       isUpload: false,
       isPassage: false,
       isLoggedin: false,
       titles: [],
-      passages: []
+      passages: [],
+      childButtonClicked: 0,
     };
     this.onChangeInput = this.onChangeInput.bind(this);
     this.isLoginSuccess = this.isLoginSuccess.bind(this);
@@ -39,7 +42,19 @@ class App extends React.Component {
     this.signupButton = this.signupButton.bind(this);
     this.homeSignupButton = this.homeSignupButton.bind(this);
     this.toggleIsUpload = this.toggleIsUpload.bind(this);
-    this.handleUploadPassage = this.handleUploadPassage.bind(this)
+    this.handleUploadPassage = this.handleUploadPassage.bind(this);
+    this.getTitlesAfterUpload = this.getTitlesAfterUpload.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/getTitles')
+    .then(res => {
+      const allTitles = [...this.state.titles];
+      allTitles.push({...res})
+      this.setState(prevState => ({
+        titles: allTitles
+      }))
+    })
   }
   
   onChangeInput(e) {
@@ -82,41 +97,44 @@ class App extends React.Component {
         password: this.state.password
       })
     })
-    .then(data => {
-      console.log(`hey post request was success ${data}`);
-    })
-    .then(
-      this.setState(prevState => ({
-        username: "",
-        password: "",
-        isLogin: !prevState.isLogin
-      }))
-    );
+      .then(data => {
+        console.log(`hey post request was success ${data}`);
+      })
+      .then(
+        this.setState(prevState => ({
+          username: "",
+          password: "",
+          isLogin: !prevState.isLogin,
+          isLoggedIn: true,
+        }))
+      );
   }
   //sign up fetch request
   signupButton() {
-    fetch("/signup", {
-      method: "POST",
-      header: { "content-type": "application/json" },
-      body: JSON.stringify({
+    axios.post("/signup", {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email: this.state.email,
         username: this.state.username,
         password: this.state.password
-      })
     })
     .then(data => console.log(`sign up has been success ${data}`))
     .then(
       this.setState(prevState => ({
         isSignup: !prevState.isSignup,
         // isUpload: !prevState.isUpload,
-        isLogin: prevState.isLogin
+        isLogin: !prevState.isLogin,
+        isLoggedIn: true,
       }))
     );
   }
 
-  handleUploadPassage(parentId = 0, childId = 0) {
+  handleUploadPassage() {
+    let childId = this.state.childButtonClicked;
+    let parentId = 0;
+    if (this.state.passages.length !== 0) { 
+      parentId = this.state.passages[this.state.passages.length - 1]._id; 
+    }
     const passageObject = {};
     passageObject.title = this.state.title;
     passageObject.author = this.state.author;
@@ -127,10 +145,25 @@ class App extends React.Component {
     passageObject.childId = childId;
     axios.post('/uploadPassage', passageObject)
       .then(res => {
-        this.setState(prevState => ({
-          isUpload: !prevState.isUpload,
-        }));
+        this.setState({
+          isUpload: false,
+          childButtonClicked: 0,
+        });
       })
+      .then(
+        this.getTitlesAfterUpload()
+      )
+  }
+
+  getTitlesAfterUpload() {
+    axios.get('/getTitles')
+    .then(newTitle => {
+      const newTitles = [...this.state.titles];
+      newTitle.push(...newTitle)
+      this.setState(prevState => ({
+        titles: newTitles
+      }))
+    })
   }
   
   titleClickHandler(id) {
@@ -144,30 +177,32 @@ class App extends React.Component {
     }))}  
   )}
   
-  pathClickHandler(childId) {
-    // if no child exists, render Upload Form
-    if (childId === 0) {
-      this.setState(prevState => ({
-        isUpload: !prevState.isUpload
-      }))
-    }
-
-    axios.get(`/getPassage/${childId}`)
-    .then(res => {
-      const newPathpassages = [...this.state.passages];
-      newPathpassages.push({...res.data[0]})
-      this.setState(prevState => ({ 
-      passages: newPathpassages,
-      isPathClicked: !prevState.isPathClicked 
-    }))}  
-  )}
+  pathClickHandler(childId, buttonId) {
+    if(childId === 0) {
+      this.setState({
+        childButtonClicked: buttonId,
+        isUpload: true,
+      });
+    } else {
+      axios.get(`/getPassage/${childId}`)
+      .then(res => {
+        const newPathpassages = [...this.state.passages];
+        newPathpassages.push({...res.data[0]})
+        this.setState(prevState => ({ 
+        passages: newPathpassages,
+        isPathClicked: !prevState.isPathClicked 
+      }))}  
+    )}
+  }
 
   render() {
     return (
       <div>
-        <Header loginClickHandler={this.loginClickHandler} homeSignupButton={this.homeSignupButton} />
+        <Header />
         
         {/* conditional rendering for storytitle component */}
+
+        {!this.state.isLogin && !this.state.isLoggedIn && <LoginSignupButtons loginClickHandler={this.loginClickHandler} homeSignupButton={this.homeSignupButton} /> }
         
         { this.state.isSignup ? 
               <Signup onChangeInput={this.onChangeInput} signupButton={this.signupButton} />

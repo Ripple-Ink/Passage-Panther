@@ -4,11 +4,11 @@ import Signup from './Signup.jsx'
 const Login = props => {
   // console.log(props)
   return (
-    <div>
-      Username: <input name="username" onChange={props.username} type="text" />
-      Password: <input name="password" onChange={props.password} type="password" />
-      <button onClick={props.loginButton}>Log in</button>
-      <button onClick={props.signupButtonInLogin}>Sign up</button>
+    <div className="formHolder">
+      <input name="username" placeholder="Username" onChange={props.onChangeInput} type="text" />
+      <input name="password" placeholder="Password" onChange={props.onChangeInput} type="password" />
+      <div className="button" onClick={props.loginButton}>Log in</div>
+      <div className="button" onClick={props.signupButtonInLogin}>Sign up</div>
     </div>
   );
 };
