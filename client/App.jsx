@@ -44,6 +44,8 @@ class App extends React.Component {
     this.toggleIsUpload = this.toggleIsUpload.bind(this);
     this.handleUploadPassage = this.handleUploadPassage.bind(this);
     this.getTitles = this.getTitles.bind(this);
+    this.backButton = this.backButton.bind(this);
+    this.isPassageBackButton = this.isPassageBackButton.bind(this);
   }
 
   componentDidMount() {
@@ -71,6 +73,17 @@ class App extends React.Component {
     this.setState(prevState => ({
       isUpload: !prevState.isUpload
     }));
+  }
+  backButton(){
+    this.setState(prevState => ({
+      isUpload: !prevState.isUpload
+    }))
+  }
+  isPassageBackButton(){
+    this.setState(prevState => ({
+      isPassage: !prevState.isPassage,
+      passages: []
+    }))
   }
   //b
   loginClickHandler() {
@@ -209,9 +222,9 @@ class App extends React.Component {
               : this.state.isLogin ? 
               <Login onChangeInput={this.onChangeInput} loginButton={this.loginButton} isSignup={this.isSignup} />
               : this.state.isUpload ?
-              <UploadNewStory onChangeInput={this.onChangeInput} handleUploadPassage={this.handleUploadPassage} />
+              <UploadNewStory onChangeInput={this.onChangeInput} handleUploadPassage={this.handleUploadPassage} backButton = {this.backButton}/>
               : this.state.isPassage ?
-              <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} />
+              <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} isPassageBackButton={this.isPassageBackButton}/>
                 : <TitleFeed titleClickHandler={this.titleClickHandler} titles={this.state.titles} toggleIsUpload={this.toggleIsUpload} />
         }
         
