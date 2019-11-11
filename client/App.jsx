@@ -43,18 +43,11 @@ class App extends React.Component {
     this.homeSignupButton = this.homeSignupButton.bind(this);
     this.toggleIsUpload = this.toggleIsUpload.bind(this);
     this.handleUploadPassage = this.handleUploadPassage.bind(this);
-    this.getTitlesAfterUpload = this.getTitlesAfterUpload.bind(this);
+    this.getTitles = this.getTitles.bind(this);
   }
 
   componentDidMount() {
-    axios.get('/getTitles')
-    .then(res => {
-      const allTitles = [...this.state.titles];
-      allTitles.push({...res})
-      this.setState(prevState => ({
-        titles: allTitles
-      }))
-    })
+    this.getTitles();
   }
   
   onChangeInput(e) {
@@ -144,26 +137,30 @@ class App extends React.Component {
     passageObject.parent = parentId;
     passageObject.childId = childId;
     axios.post('/uploadPassage', passageObject)
-      .then(res => {
+      .then(() => {
         this.setState({
           isUpload: false,
           childButtonClicked: 0,
         });
       })
-      .then(
-        this.getTitlesAfterUpload()
-      )
+      .then(() => {
+        this.getTitles();
+        // this.getTitlesAfterUpload()
+      })
   }
 
-  getTitlesAfterUpload() {
+  getTitles() {
     axios.get('/getTitles')
-    .then(newTitle => {
-      const newTitles = [...this.state.titles];
-      newTitle.push(...newTitle)
-      this.setState(prevState => ({
-        titles: newTitles
-      }))
-    })
+      .then(res => {
+        const newArray = JSON.parse(JSON.stringify(res.data.allTitles));
+        const allTitles = [...this.state.titles];
+        newArray.forEach(el => {
+          allTitles.push(el);
+        });
+        this.setState({
+          titles: allTitles
+        })
+      })
   }
   
   titleClickHandler(id) {
