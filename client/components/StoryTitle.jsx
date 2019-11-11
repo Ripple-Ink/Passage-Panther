@@ -4,9 +4,7 @@ const storyTitle = (props) => {
   return (
     <div>
       <li style={{cursor: 'pointer'}} onClick={() => props.titleClickHandler(props.item._id)}>
-        Title: {props.item.title}
-        Author: {props.item.author}
-              
+        {props.item.title} by {props.item.author}
       </li>
     </div>  
   )

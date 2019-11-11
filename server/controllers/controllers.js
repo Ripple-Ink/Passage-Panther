@@ -43,32 +43,14 @@ controller.createAccount = (req, res, next) => {
             return next(err);
         }
     })
-    }
-
-    controller.checkLogin = (req, res, next) => {
-        const {username, password } = req.body
-        if (!username || !password) { 
-            return res.json({message: "please enter a username or password!"})
-        }
-
-
-  db.query(text, values, (err, result) => {
-    if (!err) {
-      res.status(200).json(result);
-      return next();
-    } else {
-      return next(err);
-    }
-  });
-};
+}
 
 controller.checkLogin = (req, res, next) => {
   const { username, password } = req.body;
+  const text = `SELECT username, password FROM logininfo WHERE username = '${username}' AND password = '${password}'`;
   if (!username || !password) {
     return res.json({ message: "please enter a username or password!" });
   }
-
-  const text = `SELECT username, password FROM logininfo WHERE username = '${username}' AND password = '${password}'`;
   db.query(text)
     .then(result => {
       if (
