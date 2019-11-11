@@ -3,13 +3,13 @@ import React from "react";
 const Signup = props => {
     console.log(props)
   return (
-    <div>
-      First Name: <input name="firstName" type="text" onChange={props.firstName} />
-      Last Name: <input name="lastName" type="text" onChange={props.lastName} />
-      Email: <input name="email" type="text" onChange={props.email} />
-      Username: <input name="username" type="text" onChange={props.usrername} />
-      Password: <input name="password" type="password" onChange={props.password} />
-      <button onClick={props.signupButton}>Sign up</button>
+    <div className="formHolder">
+      <input name="firstName" type="text" placeholder="First Name" onChange={props.onChangeInput} />
+      <input name="lastName" type="text" placeholder="Last Name" onChange={props.onChangeInput} />
+      <input name="email" type="text" placeholder="Email" onChange={props.onChangeInput} />
+      <input name="username" type="text" placeholder="Username" onChange={props.onChangeInput} />
+      <input name="password" type="password" placeholder="Password" onChange={props.onChangeInput} />
+      <div className="button" onClick={props.signupButton}>Sign up</div>
     </div>
   );
 };
