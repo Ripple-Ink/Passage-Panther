@@ -7,7 +7,7 @@ controller.getAllTitles = (req, res, next) => {
     "SELECT _id, title, author FROM passages WHERE parent = 0";
   db.query(text)
     .then(result => {
-      res.status(200).json(result.rows);
+      res.locals.allTitles = result.rows;
       return next();
     })
     .catch(err => {
@@ -87,8 +87,8 @@ controller.checkLogin = (req, res, next) => {
 controller.createNewRow = (req, res, next) => {
   const { title, author, content, parent, path1, path2 } = req.body;
 
-    const text = `INSERT INTO passages (title, author, content, parent, child1, child2, path1, path2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
-    const values = [title, author, content, parent, 0, 0 , path1, path2];
+  const text = `INSERT INTO passages (title, author, content, parent, child1, child2, path1, path2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
+  const values = [title, author, content, parent, 0, 0 , path1, path2];
 
     db.query(text, values, (err, result) => {
       if (!err) { 
@@ -98,7 +98,7 @@ controller.createNewRow = (req, res, next) => {
 };
 
 controller.getLatestId = (req, res, next) => {
-  const text = `SELECT MAX(_id) FROM passages`
+  const text = `SELECT MAX(_id) FROM passages`;
   db.query(text)
   .then(result => {
     res.locals.lastRow = result.rows[0].max;
@@ -106,21 +106,25 @@ controller.getLatestId = (req, res, next) => {
   })
 }
 
-  controller.updatePassages = (req, res, next) => {
-    const { childId, parent } = req.body
-    let text;
-    if (parent !== 0) { 
-    if (childId === 1) { 
+controller.updatePassages = (req, res, next) => {
+  const { childId, parent } = req.body;
+  if (parent !== 0) { 
+    let text = '';
+    if (childId == '1') { 
       text = `UPDATE passages SET child1 = ${res.locals.lastRow } WHERE _id = ${parent}`
     }
-  
-    if (childId === 2) { 
+    
+    if (childId == '2') { 
       text = `UPDATE passages SET child2 = ${res.locals.lastRow } WHERE _id = ${parent}`
     }
     db.query(text)
-    .then(() => {return next()})
+      .then(() => {
+        return next();
+      })
+  } else {
+    return next();
   }
-  }
+}
 
 
 
