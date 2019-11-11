@@ -2,7 +2,6 @@ import React from "react";
 import Login from "./components/Login.jsx";
 import Header from "./components/Header.jsx";
 import Signup from "./components/Signup.jsx";
-import NewStoryButton from "./components/NewStoryButton.jsx";
 import UploadNewStory from "./components/UploadNewStory.jsx";
 import TitleFeed from "./components/TitleFeed.jsx";
 import PassageFeed from './components/PassageFeed.jsx';
@@ -12,126 +11,68 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      title: "",
-      author: "",
-      content: "",
-      path1: "",
-      path2: "",
+      username: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      title: '',
+      author: '',
+      content: '',
+      path1: '',
+      path2: '',
+      isSignup: false,
+      isLogin: false,
       isUpload: false,
-      isLoginClicked: false,
+      isPassage: false,
       isLoggedin: false,
-      isTitleClicked: false,
-      signupButtonInLogin: false,
       titles: [],
       passages: []
     };
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
     this.isLoginSuccess = this.isLoginSuccess.bind(this);
     this.loginButton = this.loginButton.bind(this);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
     this.titleClickHandler = this.titleClickHandler.bind(this);
     this.pathClickHandler = this.pathClickHandler.bind(this);
     this.loginClickHandler = this.loginClickHandler.bind(this);
-    this.signupButtonInLogin = this.signupButtonInLogin.bind(this);
+    this.isSignup = this.isSignup.bind(this);
     this.signupButton = this.signupButton.bind(this);
-    this.onChangeTitle = this.onChangeTitle.bind(this);
-    this.onChangeAuthor = this.onChangeAuthor.bind(this);
-    this.onChangeContent = this.onChangeContent.bind(this);
-    this.onChangePath1 = this.onChangePath1.bind(this);
-    this.onChangePath2 = this.onChangePath2.bind(this);
     this.homeSignupButton = this.homeSignupButton.bind(this);
+    this.toggleIsUpload = this.toggleIsUpload.bind(this);
+    this.handleUploadPassage = this.handleUploadPassage.bind(this)
   }
-  //b
-  onChangeFirstName(e) {
-    this.setState({
-      firstName: e.target.value
-    });
-  }
-  //b
-  onChangeLastName(e) {
-    this.setState({
-      lastName: e.target.value
-    });
-  }
-  //b
-  onChangeEmail(e) {
-    this.setState({
-      email: e.target.value
-    });
-  }
-  //b
-  onChangeUsername(e) {
-    // console.log(e.target)
-    this.setState({
-      username: e.target.value
-    });
-  }
-  //method for password input
-  //b
-  onChangePassword(e) {
-    // console.log(e.target)
-    this.setState({
-      password: e.target.value
-    });
+  
+  onChangeInput(e) {
+    let object = {};                 
+    object[e.target.name] = e.target.value;    
+    this.setState(object);                           
   }
 
-  onChangeTitle(e) {
-    this.setState({
-      title: e.target.value
-    });
-  }
-  onChangeAuthor(e) {
-    this.setState({
-      author: e.target.value
-    });
-  }
-  onChangeContent(e) {
-    this.setState({
-      content: e.target.value
-    });
-  }
-  onChangePath1(e) {
-    this.setState({
-      path1: e.target.value
-    });
-  }
-  onChangePath2(e) {
-    this.setState({
-      path2: e.target.value
-    });
-  }
-
-  signupButtonInLogin() {
-    // console.log('im clicked')
-    // console.log('log in is false', this.state.isLoginClicked)
+  isSignup() {
     this.setState(prevState => ({
-      signupButtonInLogin: !prevState.signupButtonInLogin,
-      isLoginClicked: !prevState.isLoginClicked
+      isSignup: !prevState.isSignup,
+      isLogin: !prevState.isLogin
     }));
   }
   homeSignupButton() {
     this.setState(prevState => ({
-      signupButtonInLogin: !prevState.signupButtonInLogin
+      isSignup: !prevState.isSignup
+    }));
+  }
+  toggleIsUpload() {
+    this.setState(prevState => ({
+      isUpload: !prevState.isUpload
     }));
   }
   //b
-  //this method is for is
   loginClickHandler() {
-    this.setState(prevState => ({ isLoginClicked: !prevState.isLoginClicked }));
+    this.setState(prevState => ({ isLogin: !prevState.isLogin }));
   }
   //b
   isLoginSuccess() {
     this.setState(prevState => ({ isLoggedin: !prevState.isLoggedin }));
   }
-  //method for login button
+  //method for login button ------------------------------------------------------
   loginButton() {
     fetch("/login", {
       method: "POST",
@@ -148,7 +89,7 @@ class App extends React.Component {
         this.setState(prevState => ({
           username: "",
           password: "",
-          isLoginClicked: !prevState.isLoginClicked
+          isLogin: !prevState.isLogin
         }))
       );
   }
@@ -168,21 +109,30 @@ class App extends React.Component {
       .then(data => console.log(`sign up has been success ${data}`))
       .then(
         this.setState(prevState => ({
-          signupButtonInLogin: !prevState.signupButtonInLogin,
+          isSignup: !prevState.isSignup,
           // isUpload: !prevState.isUpload,
-          isLoginClicked: prevState.isLoginClicked
+          isLogin: prevState.isLogin
         }))
       );
   }
 
-  // getAllTitles() {
-  //   axios.get(`/getPassage/${id}`)
-  //   .then(res => this.setState(prevState => ({ 
-  //     passages: prevState.passages.push({...res.data[0]}),
-  //     isTitleClicked: !prevState.isTitleClicked 
-  //   })))  
-  // }
-
+  handleUploadPassage(parentId = 0, childId = 0) {
+    const passageObject = {};
+    passageObject.title = this.state.title;
+    passageObject.author = this.state.author;
+    passageObject.content = this.state.content;
+    passageObject.path1 = this.state.path1;
+    passageObject.path2 = this.state.path2;
+    passageObject.parent = parentId;
+    passageObject.childId = childId;
+    axios.post('/uploadPassage', passageObject)
+      .then(res => {
+        this.setState(prevState => ({
+          isUpload: !prevState.isUpload,
+        }));
+      })
+  }
+  
   titleClickHandler(id) {
     axios.get(`/getPassage/${id}`)
     .then(res => {
@@ -190,7 +140,7 @@ class App extends React.Component {
       newPassages.push({...res.data[0]})
       this.setState(prevState => ({ 
       passages: newPassages,
-      isTitleClicked: !prevState.isTitleClicked 
+      isPassage: !prevState.isPassage 
     }))}  
   )}
   
@@ -205,26 +155,33 @@ class App extends React.Component {
     }))}  
   )}
 
-  pathClickHandler() {}
-
   render() {
-    // console.log('im in render', this.state.signupButtonInLogin)
     return (
       <div>
+<<<<<<< HEAD
         {/* {console.log('hello',this.state.username)} */}
         <Header
           loginClickHandler={this.loginClickHandler}
           homeSignupButton={this.homeSignupButton}
         />
 
+=======
+        <Header loginClickHandler={this.loginClickHandler} homeSignupButton={this.homeSignupButton} />
+        
+>>>>>>> 29cb389e05ac3b97a25f55bec52ad5de9697cdd1
         {/* conditional rendering for storytitle component */}
         
-        { this.state.isTitleClicked 
-            ? 
-          <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} /> 
-            : 
-          <TitleFeed titleClickHandler={this.titleClickHandler} titles={this.state.titles} />
+        { this.state.isSignup ? 
+              <Signup onChangeInput={this.onChangeInput} signupButton={this.signupButton} />
+              : this.state.isLogin ? 
+              <Login onChangeInput={this.onChangeInput} loginButton={this.loginButton} isSignup={this.isSignup} />
+              : this.state.isUpload ?
+              <UploadNewStory onChangeInput={this.onChangeInput} handleUploadPassage={this.handleUploadPassage} />
+              : this.state.isPassage ?
+              <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} />
+                : <TitleFeed titleClickHandler={this.titleClickHandler} titles={this.state.titles} toggleIsUpload={this.toggleIsUpload} />
         }
+<<<<<<< HEAD
 
         {this.state.isUpload ? (
           <UploadNewStory
@@ -265,6 +222,9 @@ class App extends React.Component {
             signupButton={this.signupButton}
           />
         ) : null}
+=======
+        
+>>>>>>> 29cb389e05ac3b97a25f55bec52ad5de9697cdd1
       </div>
     );
   }
