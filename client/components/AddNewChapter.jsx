@@ -11,4 +11,4 @@ const AddNewChapter = props => {
     )
 }
 
-export default AddNewChapter
+export default AddNewChapter;
