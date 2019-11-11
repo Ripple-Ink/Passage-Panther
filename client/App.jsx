@@ -28,7 +28,7 @@ class App extends React.Component {
       isUpload: false,
       isPassage: false,
       isLoggedin: false,
-      titles: [{_id: 1, title: 'harry', author:'mactruck'}, {_id: 2, title: 'lord', author:'mactruck'}],
+      titles: [],
       passages: [],
       childButtonClicked: 0,
     };
@@ -150,26 +150,29 @@ class App extends React.Component {
     passageObject.parent = parentId;
     passageObject.childId = childId;
     axios.post('/uploadPassage', passageObject)
-      .then(() => {
+      .then(res => {
+        const oldPassages = JSON.parse(JSON.stringify(this.state.passages));
+        const newPassages = [...oldPassages];
+        let childNumber;
+            if (this.state.childButtonClicked != 0) {
+              childNumber = this.state.childButtonClicked == '1' ? 'child1' : 'child2';
+              newPassages[newPassages.length - 1][childNumber] = res.data.childId;
+            }
         this.setState({
           isUpload: false,
           childButtonClicked: 0,
+          passages: newPassages,
         });
       })
       .then(() => {
         this.getTitles();
-        // this.getTitlesAfterUpload()
       })
   }
 
   getTitles() {
     axios.get('/getTitles')
       .then(res => {
-        const newArray = JSON.parse(JSON.stringify(res.data.allTitles));
-        const allTitles = [...this.state.titles];
-        newArray.forEach(el => {
-          allTitles.push(el);
-        });
+        const allTitles = JSON.parse(JSON.stringify(res.data.allTitles));
         this.setState({
           titles: allTitles
         })
