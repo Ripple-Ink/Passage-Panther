@@ -4,11 +4,11 @@ const Signup = props => {
     console.log(props)
   return (
     <div>
-      First Name: <input onChange={props.firstName} type="text" />
-      Last Name: <input onChange={props.lastName} type="text" />
-      Email: <input onChange={props.email} type="text" />
-      Username: <input onChange={props.usrername} type="text" />
-      Password: <input onChange={props.password} type="text" />
+      First Name: <input name="firstName" type="text" onChange={props.firstName} />
+      Last Name: <input name="lastName" type="text" onChange={props.lastName} />
+      Email: <input name="email" type="text" onChange={props.email} />
+      Username: <input name="username" type="text" onChange={props.usrername} />
+      Password: <input name="password" type="password" onChange={props.password} />
       <button onClick={props.signupButton}>Sign up</button>
     </div>
   );
