@@ -31,7 +31,7 @@ app.post('/login', dataController.checkLogin,(req, res) => {
 });
 
 app.post('/uploadPassage', dataController.createNewRow, dataController.getLatestId, dataController.updatePassages, (req, res) => {
-  res.status(200).json({message: "successful!"})
+  res.status(200).json({childId: res.locals.lastRow});
 });
 
 // Error Handling -------------------------------------

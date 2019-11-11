@@ -1,15 +1,15 @@
 * {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 html {
-	display: flex;
-	justify-content: center;
-	background: #333;
-	min-height: 100%;
+    display: flex;
+    justify-content: center;
+    background: #333;
+    min-height: 100%;
 }
 html, body {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 body {
 //   background: #c735f0;
@@ -28,21 +28,21 @@ body {
   width: 520px;
 }
 #jass {
-	position: relative;
+    position: relative;
 }
 header {
-	padding: 10px 0;
-	position: relative;
-	top: 0;
-	width: 100%;
-	background: #211b04;
-	font-family: sans-serif;
-	box-shadow: 0 5px 10px rgba(0,0,0,.25);
-	border-radius: 3px 3px 0 0;
-	h1 {
-		margin: 0;
-		font-weight: 100;
-	}
+    padding: 10px 0;
+    position: relative;
+    top: 0;
+    width: 100%;
+    background: #211b04;
+    font-family: sans-serif;
+    box-shadow: 0 5px 10px rgba(0,0,0,.25);
+    border-radius: 3px 3px 0 0;
+    h1 {
+        margin: 0;
+        font-weight: 100;
+    }
 }
 #login {
     background: green;
@@ -94,20 +94,24 @@ a {
         cursor: pointer;
     }
 }
-
 .passage-wrapper {
+    padding: 20px;
+    margin: 10px;
+    border: 2px solid;
     .passage-title {
+        font-weight: 500;
         font-size: 1.8rem;
         margin: 20px;
     }
     .passage-content {
+        font-family: serif;
         font-size: 1.5rem;
         font-weight: 300;
         margin: 20px auto;
         padding: 10px;
     }
     .passage-author {
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-weight: 200;
         font-style: italic;
         span {
@@ -116,8 +120,54 @@ a {
         margin: 20px;
     }
 }
-
 li {
     list-style-type: none;
     font-weight: 100;
+    display: flex;
+    flex-direction: column;
+}
+.titles-title {
+    font-weight: 700;
+}
+.titles-author {
+    font-weight: 200;
+    font-size: 1rem;
+    margin-left: 10px;
+    font-style: italic;
+}
+.btn-path {
+    font-weight: 700;
+    .btn-1 {
+        margin: 10px;
+        border: 2px solid #333;
+        padding: 10px;
+        cursor: pointer;
+        &:hover {
+            background-color: #111;
+            color: #efefef;
+            transition: .2s ease;
+        }
+    }
+    .btn-2 {
+        margin: 10px;
+        border: 2px solid #333;
+        padding: 10px;
+        cursor: pointer;
+        &:hover {
+            background-color: #111;
+            color: #efefef;
+            transition: .2s ease;            
+        }
+    }
+}
+.btn-start-new-story {
+    border: 2px solid #333;
+    margin: 20px;
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+        background-color: #111;
+        color: #efefef;
+        transition: .2s ease;
+    }
 }
