@@ -1,6 +1,8 @@
 import React from 'react';
 
 const passage = (props) => {
+  
+
   return (
     <div>
       <div className="passage-wrapper">

@@ -43,7 +43,7 @@ class App extends React.Component {
   }
   
   onChangeInput(e) {
-    let object = {};                 
+    const object = {};                 
     object[e.target.name] = e.target.value;    
     this.setState(object);                           
   }
@@ -82,16 +82,16 @@ class App extends React.Component {
         password: this.state.password
       })
     })
-      .then(data => {
-        console.log(`hey post request was success ${data}`);
-      })
-      .then(
-        this.setState(prevState => ({
-          username: "",
-          password: "",
-          isLogin: !prevState.isLogin
-        }))
-      );
+    .then(data => {
+      console.log(`hey post request was success ${data}`);
+    })
+    .then(
+      this.setState(prevState => ({
+        username: "",
+        password: "",
+        isLogin: !prevState.isLogin
+      }))
+    );
   }
   //sign up fetch request
   signupButton() {
@@ -106,14 +106,14 @@ class App extends React.Component {
         password: this.state.password
       })
     })
-      .then(data => console.log(`sign up has been success ${data}`))
-      .then(
-        this.setState(prevState => ({
-          isSignup: !prevState.isSignup,
-          // isUpload: !prevState.isUpload,
-          isLogin: prevState.isLogin
-        }))
-      );
+    .then(data => console.log(`sign up has been success ${data}`))
+    .then(
+      this.setState(prevState => ({
+        isSignup: !prevState.isSignup,
+        // isUpload: !prevState.isUpload,
+        isLogin: prevState.isLogin
+      }))
+    );
   }
 
   handleUploadPassage(parentId = 0, childId = 0) {
@@ -145,6 +145,13 @@ class App extends React.Component {
   )}
   
   pathClickHandler(childId) {
+    // if no child exists, render Upload Form
+    if (childId === 0) {
+      this.setState(prevState => ({
+        isUpload: !prevState.isUpload
+      }))
+    }
+
     axios.get(`/getPassage/${childId}`)
     .then(res => {
       const newPathpassages = [...this.state.passages];
@@ -172,46 +179,7 @@ class App extends React.Component {
               <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} />
                 : <TitleFeed titleClickHandler={this.titleClickHandler} titles={this.state.titles} toggleIsUpload={this.toggleIsUpload} />
         }
-
-        {this.state.isUpload ? (
-          <UploadNewStory
-            onChangeTitle={this.onChangeTitle}
-            onChangeAuthor={this.onChangeAuthor}
-            onChangeContent={this.onChangeContent}
-            onChangePath1={this.onChangePath1}
-            onChangePath2={this.onChangePath2}
-          />
-        ) : (   
-          <NewStoryButton />
-        )}
-
-        {/* if login button is clicked it will render login page
-            if not it will render nothing or create home button? */}
-        {this.state.isLoginClicked ? (
-          <Login
-            username={this.onChangeUsername}
-            password={this.onChangePassword}
-            loginButton={this.loginButton}
-            signupButtonInLogin={this.signupButtonInLogin}
-            firstName={this.onChangeFirstName}
-            lastName={this.onChangeLastName}
-            email={this.onChangeEmail}
-          />
-        ) : null
-        // <TitleFeed />
-        }
-
-        {/* if sign up button is clicked will render sign up page */}
-        {this.state.signupButtonInLogin ? (
-          <Signup
-            usrername={this.onChangeUsername}
-            password={this.onChangePassword}
-            firstName={this.onChangeFirstName}
-            lastName={this.onChangeLastName}
-            email={this.onChangeEmail}
-            signupButton={this.signupButton}
-          />
-        ) : null}
+        
       </div>
     );
   }

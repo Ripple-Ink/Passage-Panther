@@ -12,4 +12,3 @@ const passageFeed = (props) => {
 }
 
 export default passageFeed;
-
