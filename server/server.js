@@ -16,7 +16,9 @@ app.get('/', (req, res) => {
 
 app.get('/getTitles', dataController.getAllTitles);
 app.get('/getPassage/:id', dataController.getPassage);
-app.post('/createAccount', dataController.createAccount);
+app.post('/signup', dataController.createAccount);
+app.post('/login', dataController.checkLogin);
+app.post('/newBranch' )
 
 	// Error Handling -------------------------------------
 app.use('*', (req, res) => {
