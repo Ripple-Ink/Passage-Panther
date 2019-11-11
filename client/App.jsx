@@ -5,7 +5,8 @@ import Signup from "./components/Signup.jsx";
 import NewStoryButton from "./components/NewStoryButton.jsx";
 import UploadNewStory from "./components/UploadNewStory.jsx";
 import TitleFeed from "./components/TitleFeed.jsx";
-import PassageFeed from "./components/PassageFeed.jsx";
+import PassageFeed from './components/PassageFeed.jsx';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor() {
@@ -36,6 +37,8 @@ class App extends React.Component {
     this.loginButton = this.loginButton.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.titleClickHandler = this.titleClickHandler.bind(this);
+    this.pathClickHandler = this.pathClickHandler.bind(this);
     this.loginClickHandler = this.loginClickHandler.bind(this);
     this.signupButtonInLogin = this.signupButtonInLogin.bind(this);
     this.signupButton = this.signupButton.bind(this);
@@ -172,11 +175,35 @@ class App extends React.Component {
       );
   }
 
-  titleClickHandler() {
-    this.setState(prevState => ({
-      isTitleClicked: !prevState.isTitleClicked
-    }));
-  }
+  // getAllTitles() {
+  //   axios.get(`/getPassage/${id}`)
+  //   .then(res => this.setState(prevState => ({ 
+  //     passages: prevState.passages.push({...res.data[0]}),
+  //     isTitleClicked: !prevState.isTitleClicked 
+  //   })))  
+  // }
+
+  titleClickHandler(id) {
+    axios.get(`/getPassage/${id}`)
+    .then(res => {
+      const newPassages = [...this.state.passages];
+      newPassages.push({...res.data[0]})
+      this.setState(prevState => ({ 
+      passages: newPassages,
+      isTitleClicked: !prevState.isTitleClicked 
+    }))}  
+  )}
+  
+  pathClickHandler(childId) {
+    axios.get(`/getPassage/${childId}`)
+    .then(res => {
+      const newPathpassages = [...this.state.passages];
+      newPathpassages.push({...res.data[0]})
+      this.setState(prevState => ({ 
+      passages: newPathpassages,
+      isPathClicked: !prevState.isPathClicked 
+    }))}  
+  )}
 
   pathClickHandler() {}
 
@@ -191,6 +218,17 @@ class App extends React.Component {
         />
 
         {/* header is render Passages and login button */}
+        {this.state.isUpload ? <UploadNewStory /> : <NewStoryButton />}
+        
+        {/* conditional rendering for storytitle component */}
+        
+        { this.state.isTitleClicked 
+            ? 
+          <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} /> 
+            : 
+          <TitleFeed titleClickHandler={this.titleClickHandler} titles={this.state.titles} />
+        }
+
         {this.state.isUpload ? (
           <UploadNewStory
             onChangeTitle={this.onChangeTitle}
@@ -231,20 +269,6 @@ class App extends React.Component {
             signupButton={this.signupButton}
           />
         ) : null}
-
-        {/* {this.state.isLoggedin ? <UploadNewStory/> : <TitleFeed /> } */}
-        {/* conditional rendering for click */}
-        {this.state.isTitleClicked ? (
-          <PassageFeed
-            pathClickHandler={this.pathClickHandler}
-            passages={this.state.passages}
-          />
-        ) : (
-          <TitleFeed
-            titleClickHandler={this.titleClickHandler}
-            titles={this.state.titles}
-          />
-        )}
       </div>
     );
   }
