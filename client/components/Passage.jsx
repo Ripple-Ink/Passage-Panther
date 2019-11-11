@@ -13,7 +13,7 @@ const passage = (props) => {
           {props.passage.content} 
         </div>
         <div className="passage-author">
-          <span>BY </span>{props.passage.author}
+          By {props.passage.author}
         </div>
         <div className="btn-path">
           <div id="1" onClick={(e) => props.pathClickHandler(props.passage.child1, e.target.id)}>{props.passage.path1}</div>

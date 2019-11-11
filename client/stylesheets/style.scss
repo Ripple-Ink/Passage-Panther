@@ -99,23 +99,40 @@ a {
     .passage-title {
         font-size: 1.8rem;
         margin: 20px;
+        font-weight: 500;
     }
     .passage-content {
         font-size: 1.5rem;
         font-weight: 300;
         margin: 20px auto;
         padding: 10px;
+        font-family: serif;
     }
     .passage-author {
         font-size: 1rem;
         font-weight: 200;
         font-style: italic;
-        span {
-            font-style: normal;
-        }
+        text-align: right;
         margin: 20px;
     }
+}
 li {
     list-style-type: none;
     font-weight: 100;
+    margin: 10px;
+    font-size: 1.125rem;
+    letter-spacing: .025em;
+    .storyTitle {
+        font-size: 1.25em;
+        font-style: italic;
+        font-family: serif;
+    }
+    .storyAuthor {
+        font-weight: 100;
+        font-size: 1em;
+    }
+}
+.addNewStoryButton {
+    font-size: 40px;
+    margin: 5px;
 }
