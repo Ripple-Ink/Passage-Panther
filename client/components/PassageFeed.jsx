@@ -2,9 +2,8 @@ import React from 'react';
 import Passage from './Passage.jsx';
 
 const passageFeed = (props) => {
-
   return (
-    <div>
+    <div className="passage-feed">          
       {props.passages.map(passage => (
         <Passage pathClickHandler={props.pathClickHandler} passage={passage} />
       ))}

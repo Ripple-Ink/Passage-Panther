@@ -4,7 +4,7 @@ const Header = props => {
 
     return (
         <div>
-            <h1>Passages</h1>
+            <h1 style={{cursor: 'pointer'}}>Passages</h1>
             <div onClick={props.loginClickHandler} >Login</div>
         </div>
 
