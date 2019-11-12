@@ -2,26 +2,26 @@ import React from "react";
 import Login from "./components/Login.jsx";
 import Header from "./components/Header.jsx";
 import Signup from "./components/Signup.jsx";
-import LoginSignupButtons from './components/LoginSignupButtons.jsx';
+import LoginSignupButtons from "./components/LoginSignupButtons.jsx";
 import UploadNewStory from "./components/UploadNewStory.jsx";
 import TitleFeed from "./components/TitleFeed.jsx";
-import PassageFeed from './components/PassageFeed.jsx';
-import axios from 'axios';
+import PassageFeed from "./components/PassageFeed.jsx";
+import axios from "axios";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      title: '',
-      author: '',
-      content: '',
-      path1: '',
-      path2: '',
+      username: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      title: "",
+      author: "",
+      content: "",
+      path1: "",
+      path2: "",
       isSignup: false,
       isLogin: false,
       isLoggedIn: false,
@@ -30,7 +30,7 @@ class App extends React.Component {
       isLoggedin: false,
       titles: [],
       passages: [],
-      childButtonClicked: 0,
+      childButtonClicked: 0
     };
     this.onChangeInput = this.onChangeInput.bind(this);
     this.isLoginSuccess = this.isLoginSuccess.bind(this);
@@ -51,11 +51,11 @@ class App extends React.Component {
   componentDidMount() {
     this.getTitles();
   }
-  
+
   onChangeInput(e) {
-    const object = {};                 
-    object[e.target.name] = e.target.value;    
-    this.setState(object);                           
+    const object = {};
+    object[e.target.name] = e.target.value;
+    this.setState(object);
   }
 
   isSignup() {
@@ -74,28 +74,29 @@ class App extends React.Component {
       isUpload: !prevState.isUpload
     }));
   }
-  backButton(){
+  backButton() {
     this.setState(prevState => ({
       isUpload: !prevState.isUpload
-    }))
+    }));
   }
-  isPassageBackButton(){
+  isPassageBackButton() {
     this.setState(prevState => ({
       isSignup: false,
       isLogin: false,
       isPassage: false,
       isUpload: false,
       passages: []
-    }))
+    }));
   }
-  //b
+
   loginClickHandler() {
-    this.setState(prevState => ({ isLogin: !prevState.isLogin }));
+    this.setState(prevState => ({ isLogin: true, isSignup: false }));
   }
-  //b
+
   isLoginSuccess() {
     this.setState(prevState => ({ isLoggedin: !prevState.isLoggedin }));
   }
+
   //method for login button ------------------------------------------------------
   loginButton() {
     fetch("/login", {
@@ -120,29 +121,30 @@ class App extends React.Component {
   }
   //sign up fetch request
   signupButton() {
-    axios.post("/signup", {
+    axios
+      .post("/signup", {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email: this.state.email,
         username: this.state.username,
         password: this.state.password
-    })
-    .then(data => console.log(`sign up has been success ${data}`))
-    .then(
-      this.setState(prevState => ({
-        isSignup: !prevState.isSignup,
-        // isUpload: !prevState.isUpload,
-        isLogin: !prevState.isLogin,
-        isLoggedIn: true,
-      }))
-    );
+      })
+      .then(data => console.log(`sign up has been success ${data}`))
+      .then(
+        this.setState(prevState => ({
+          isSignup: !prevState.isSignup,
+          // isUpload: !prevState.isUpload,
+          isLogin: !prevState.isLogin,
+          isLoggedIn: true
+        }))
+      );
   }
 
   handleUploadPassage() {
     let childId = this.state.childButtonClicked;
     let parentId = 0;
-    if (this.state.passages.length !== 0) { 
-      parentId = this.state.passages[this.state.passages.length - 1]._id; 
+    if (this.state.passages.length !== 0) {
+      parentId = this.state.passages[this.state.passages.length - 1]._id;
     }
     const passageObject = {};
     passageObject.title = this.state.title;
@@ -152,52 +154,53 @@ class App extends React.Component {
     passageObject.path2 = this.state.path2;
     passageObject.parent = parentId;
     passageObject.childId = childId;
-    axios.post('/uploadPassage', passageObject)
+    axios
+      .post("/uploadPassage", passageObject)
       .then(res => {
         const oldPassages = JSON.parse(JSON.stringify(this.state.passages));
         const newPassages = [...oldPassages];
         let childNumber;
-            if (this.state.childButtonClicked != 0) {
-              childNumber = this.state.childButtonClicked == '1' ? 'child1' : 'child2';
-              newPassages[newPassages.length - 1][childNumber] = res.data.childId;
-            }
+        if (this.state.childButtonClicked != 0) {
+          childNumber =
+            this.state.childButtonClicked == "1" ? "child1" : "child2";
+          newPassages[newPassages.length - 1][childNumber] = res.data.childId;
+        }
         this.setState({
           isUpload: false,
           childButtonClicked: 0,
-          passages: newPassages,
+          passages: newPassages
         });
       })
       .then(() => {
         this.getTitles();
-      })
+      });
   }
 
   getTitles() {
-    axios.get('/getTitles')
-      .then(res => {
-        const allTitles = JSON.parse(JSON.stringify(res.data.allTitles));
-        this.setState({
-          titles: allTitles
-        })
-      })
+    axios.get("/getTitles").then(res => {
+      const allTitles = JSON.parse(JSON.stringify(res.data.allTitles));
+      this.setState({
+        titles: allTitles
+      });
+    });
   }
-  
+
   titleClickHandler(id) {
-    axios.get(`/getPassage/${id}`)
-    .then(res => {
+    axios.get(`/getPassage/${id}`).then(res => {
       const newPassages = [...this.state.passages];
-      newPassages.push({...res.data[0]})
-      this.setState(prevState => ({ 
-      passages: newPassages,
-      isPassage: !prevState.isPassage 
-    }))}  
-  )}
-  
+      newPassages.push({ ...res.data[0] });
+      this.setState(prevState => ({
+        passages: newPassages,
+        isPassage: !prevState.isPassage
+      }));
+    });
+  }
+
   pathClickHandler(childId, buttonId) {
-    if(childId === 0) {
+    if (childId === 0) {
       this.setState({
         childButtonClicked: buttonId,
-        isUpload: true,
+        isUpload: true
       });
     } else {
       axios.get(`/getPassage/${childId}`)
@@ -220,19 +223,43 @@ class App extends React.Component {
         
         {/* conditional rendering for storytitle component */}
 
-        {!this.state.isLogin && !this.state.isLoggedIn && <LoginSignupButtons loginClickHandler={this.loginClickHandler} homeSignupButton={this.homeSignupButton} /> }
-        
-        { this.state.isSignup ? 
-              <Signup onChangeInput={this.onChangeInput} signupButton={this.signupButton} />
-              : this.state.isLogin ? 
-              <Login onChangeInput={this.onChangeInput} loginButton={this.loginButton} isSignup={this.isSignup} />
-              : this.state.isUpload ?
-              <UploadNewStory onChangeInput={this.onChangeInput} handleUploadPassage={this.handleUploadPassage} backButton = {this.backButton}/>
-              : this.state.isPassage ?
-              <PassageFeed pathClickHandler={this.pathClickHandler} passages={this.state.passages} isPassageBackButton={this.isPassageBackButton}/>
-                : <TitleFeed titleClickHandler={this.titleClickHandler} titles={this.state.titles} toggleIsUpload={this.toggleIsUpload} />
-        }
-        
+        {!this.state.isLogin && !this.state.isLoggedIn && (
+          <LoginSignupButtons
+            loginClickHandler={this.loginClickHandler}
+            homeSignupButton={this.homeSignupButton}
+          />
+        )}
+
+        {this.state.isSignup ? (
+          <Signup
+            onChangeInput={this.onChangeInput}
+            signupButton={this.signupButton}
+          />
+        ) : this.state.isLogin ? (
+          <Login
+            onChangeInput={this.onChangeInput}
+            loginButton={this.loginButton}
+            isSignup={this.isSignup}
+          />
+        ) : this.state.isUpload ? (
+          <UploadNewStory
+            onChangeInput={this.onChangeInput}
+            handleUploadPassage={this.handleUploadPassage}
+            backButton={this.backButton}
+          />
+        ) : this.state.isPassage ? (
+          <PassageFeed
+            pathClickHandler={this.pathClickHandler}
+            passages={this.state.passages}
+            isPassageBackButton={this.isPassageBackButton}
+          />
+        ) : (
+          <TitleFeed
+            titleClickHandler={this.titleClickHandler}
+            titles={this.state.titles}
+            toggleIsUpload={this.toggleIsUpload}
+          />
+        )}
       </div>
     );
   }
