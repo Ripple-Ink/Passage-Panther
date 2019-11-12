@@ -7,7 +7,7 @@ const passageFeed = (props) => {
       {props.passages.map(passage => (
         <Passage pathClickHandler={props.pathClickHandler} passage={passage} />
       ))}
-      <div className="backButton" onClick={props.isPassageBackButton}>previous page</div>
+      <div className="button back-to-main" onClick={props.isPassageBackButton}>Back To Main</div>
     </div>
   )
 }
