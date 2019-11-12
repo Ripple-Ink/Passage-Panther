@@ -81,7 +81,10 @@ class App extends React.Component {
   }
   isPassageBackButton() {
     this.setState(prevState => ({
-      isPassage: !prevState.isPassage,
+      isSignup: false,
+      isLogin: false,
+      isPassage: false,
+      isUpload: false,
       passages: []
     }));
   }
@@ -104,17 +107,17 @@ class App extends React.Component {
         password: this.state.password
       })
     })
-      .then(data => {
-        console.log(`hey post request was success ${data}`);
-      })
-      .then(
-        this.setState(prevState => ({
-          username: "",
-          password: "",
-          isLogin: !prevState.isLogin,
-          isLoggedIn: true
-        }))
-      );
+    .then(data => {
+      console.log(`hey post request was success ${data}`);
+    })
+    .then(
+      this.setState(prevState => ({
+        username: "",
+        password: "",
+        isLogin: !prevState.isLogin,
+        isLoggedIn: true,
+      }))
+    );
   }
   //sign up fetch request
   signupButton() {
@@ -200,22 +203,24 @@ class App extends React.Component {
         isUpload: true
       });
     } else {
-      axios.get(`/getPassage/${childId}`).then(res => {
-        const newPathpassages = [...this.state.passages];
-        newPathpassages.push({ ...res.data[0] });
-        this.setState(prevState => ({
-          passages: newPathpassages,
-          isPathClicked: !prevState.isPathClicked
-        }));
-      });
-    }
+      axios.get(`/getPassage/${childId}`)
+      .then(res => {
+        const newPathPassages = [...this.state.passages];
+        newPathPassages[this.state.passages.length - 1].childClicked = true;
+        console.log(newPathPassages[this.state.passages.length - 1]);
+        newPathPassages.push({...res.data[0]})
+        this.setState(prevState => ({ 
+        passages: newPathPassages,
+        isPathClicked: !prevState.isPathClicked 
+      }))}  
+    )}
   }
 
   render() {
     return (
       <div>
-        <Header />
-
+        <Header isPassageBackButton={this.isPassageBackButton} />
+        
         {/* conditional rendering for storytitle component */}
 
         {!this.state.isLogin && !this.state.isLoggedIn && (

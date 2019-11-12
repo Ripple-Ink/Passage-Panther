@@ -9,7 +9,7 @@ const Signup = props => {
       <input name="email" type="text" placeholder="Email" onChange={props.onChangeInput} />
       <input name="username" type="text" placeholder="Username" onChange={props.onChangeInput} />
       <input name="password" type="password" placeholder="Password" onChange={props.onChangeInput} />
-      <div className="button" onClick={props.signupButton}>Sign up</div>
+      <div className="button" onClick={props.signupButton}>Submit</div>
     </div>
   );
 };

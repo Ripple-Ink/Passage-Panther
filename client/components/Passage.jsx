@@ -1,8 +1,8 @@
 import React from 'react';
 
-const passage = (props) => {
-  
+import ButtonPath from './ButtonPath.jsx';
 
+const passage = (props) => {
   return (
     <div>
       <div className="passage-wrapper">
@@ -13,12 +13,9 @@ const passage = (props) => {
           {props.passage.content} 
         </div>
         <div className="passage-author">
-          <span>by </span>{props.passage.author}
+          by {props.passage.author}
         </div>
-        <div className="btn-path">
-          <div className="btn-1" id="1" onClick={(e) => props.pathClickHandler(props.passage.child1, e.target.id)}>{props.passage.path1}</div>
-          <div className="btn-2" id="2" onClick={(e) => props.pathClickHandler(props.passage.child2, e.target.id)}>{props.passage.path2}</div>
-        </div>
+        { !props.passage.childClicked && <ButtonPath passage={props.passage} pathClickHandler={props.pathClickHandler} /> }
       </div>  
     </div>
   )

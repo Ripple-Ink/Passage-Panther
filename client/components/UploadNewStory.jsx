@@ -9,8 +9,11 @@ const UploadNewStory = props => {
       <input name="content" type="text" placeholder="Content" onChange={props.onChangeInput}/>
       <input name="path1" type="text" placeholder="Path 1" onChange={props.onChangeInput}/>
       <input name="path2" type="text" placeholder="Path 2" onChange={props.onChangeInput}/>
-      <div className="backButton" onClick={props.backButton}>Back</div>
-      <div className="button" onClick={props.handleUploadPassage}>Submit</div>
+      <div>
+        <div className="button" onClick={props.backButton}>Back</div>      
+        <div className="button" onClick={props.handleUploadPassage}>Submit</div>
+      </div>
+
     </div>
   );
 };
