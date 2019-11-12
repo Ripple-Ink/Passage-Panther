@@ -96,18 +96,25 @@ a {
 }
 
 .passage-wrapper {
+    padding: 20px;
+    margin: 10px;
+    border: 2px solid #b8b8b8;
+    color: #333;
+
     .passage-title {
+        font-weight: 500;
         font-size: 1.8rem;
         margin: 20px;
     }
     .passage-content {
+        font-family: serif;
         font-size: 1.5rem;
         font-weight: 300;
         margin: 20px auto;
         padding: 10px;
     }
     .passage-author {
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-weight: 200;
         font-style: italic;
         span {
@@ -115,8 +122,61 @@ a {
         }
         margin: 20px;
     }
+}
+
 li {
     list-style-type: none;
     font-weight: 100;
+    display: flex;
+    flex-direction: column;
 }
+
+.titles-title {
+    font-weight: 700;
+}
+
+.titles-author {
+    font-weight: 200;
+    font-size: 1rem;
+    margin-left: 10px;
+    font-style: italic;
+}
+
+.btn-path {
+    font-weight: 700;
+
+    .btn-1 {
+        margin: 10px;
+        border: 2px solid #b8b8b8;	
+        padding: 10px;
+        cursor: pointer;
+        &:hover {
+            background-color: #b8b8b8;
+            color: #efefef;
+            transition: .2s ease;
+        }
+    }
+    .btn-2 {
+        margin: 10px;
+        border: 2px solid #b8b8b8;
+        padding: 10px;
+        cursor: pointer;
+        &:hover {
+            background-color: #b8b8b8;	
+            color: #efefef;
+            transition: .2s ease;            
+        }
+    }
+}
+
+.btn-start-new-story {
+    border: 2px solid #333;
+    margin: 20px;
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+        background-color: #111;
+        color: #efefef;
+        transition: .2s ease;
+    }
 }
