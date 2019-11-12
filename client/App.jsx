@@ -81,7 +81,10 @@ class App extends React.Component {
   }
   isPassageBackButton(){
     this.setState(prevState => ({
-      isPassage: !prevState.isPassage,
+      isSignup: false,
+      isLogin: false,
+      isPassage: false,
+      isUpload: false,
       passages: []
     }))
   }
@@ -103,17 +106,17 @@ class App extends React.Component {
         password: this.state.password
       })
     })
-      .then(data => {
-        console.log(`hey post request was success ${data}`);
-      })
-      .then(
-        this.setState(prevState => ({
-          username: "",
-          password: "",
-          isLogin: !prevState.isLogin,
-          isLoggedIn: true,
-        }))
-      );
+    .then(data => {
+      console.log(`hey post request was success ${data}`);
+    })
+    .then(
+      this.setState(prevState => ({
+        username: "",
+        password: "",
+        isLogin: !prevState.isLogin,
+        isLoggedIn: true,
+      }))
+    );
   }
   //sign up fetch request
   signupButton() {
@@ -211,7 +214,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header />
+        <Header isPassageBackButton={this.isPassageBackButton} />
         
         {/* conditional rendering for storytitle component */}
 
