@@ -199,10 +199,12 @@ class App extends React.Component {
     } else {
       axios.get(`/getPassage/${childId}`)
       .then(res => {
-        const newPathpassages = [...this.state.passages];
-        newPathpassages.push({...res.data[0]})
+        const newPathPassages = [...this.state.passages];
+        newPathPassages[this.state.passages.length - 1].childClicked = true;
+        console.log(newPathPassages[this.state.passages.length - 1]);
+        newPathPassages.push({...res.data[0]})
         this.setState(prevState => ({ 
-        passages: newPathpassages,
+        passages: newPathPassages,
         isPathClicked: !prevState.isPathClicked 
       }))}  
     )}
